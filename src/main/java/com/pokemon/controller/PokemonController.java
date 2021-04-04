@@ -18,12 +18,12 @@ import com.pokemon.model.Pokemon;
 import com.pokemon.service.PokemonService;
 
 @RestController
-@RequestMapping(value="/pokemons")
+@RequestMapping(value = "/pokemons")
 public class PokemonController implements ControllerInteface<Pokemon> {
 
 	@Autowired
 	PokemonService service;
-	
+
 	@Override
 	@GetMapping
 	public ResponseEntity<List<Pokemon>> getAll() {
@@ -34,7 +34,7 @@ public class PokemonController implements ControllerInteface<Pokemon> {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> get(@PathVariable("id") Long id) {
 		Pokemon _pokemon = service.findById(id);
-		if(_pokemon != null) {
+		if (_pokemon != null) {
 			return ResponseEntity.ok(_pokemon);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -50,7 +50,7 @@ public class PokemonController implements ControllerInteface<Pokemon> {
 	@Override
 	@PutMapping
 	public ResponseEntity<?> put(@RequestBody Pokemon obj) {
-		if(service.update(obj)) {
+		if (service.update(obj)) {
 			return ResponseEntity.ok(obj);
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -60,11 +60,16 @@ public class PokemonController implements ControllerInteface<Pokemon> {
 	@DeleteMapping(value = "{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Pokemon _pokemon = service.findById(id);
-		if(_pokemon !=null) {
+		if (_pokemon != null) {
 			service.delete(id);
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	}
+
+	@GetMapping(value = "/elemento/{elemento}")
+	public ResponseEntity<List<Pokemon>> getByNomeElemento(@PathVariable("elemento") String elemento) {
+		return ResponseEntity.ok(service.listarPorNomeElemento(elemento));
 	}
 
 }

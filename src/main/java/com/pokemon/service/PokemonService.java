@@ -49,5 +49,14 @@ public class PokemonService implements ServiceInterface<Pokemon> {
 		}
 		return false;
 	}
+	
+	/*public List<Pokemon> listarPorElementoFogo(){
+		return repository.listarPorElementoFogo();
+	}*/
+	
+	public List<Pokemon> listarPorNomeElemento(String nomeElemento){
+		return repository.listarPorNomeElemento(nomeElemento);		
+	}
+
 
 }

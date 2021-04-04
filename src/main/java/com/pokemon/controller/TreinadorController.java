@@ -58,11 +58,11 @@ public class TreinadorController implements ControllerInteface<Treinador> {
 
 	@Override
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> delete( Long id) {
-		if(service.delete(id)) {
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	public ResponseEntity<?> delete(@PathVariable Long id) {
+		if(service.delete(id)) 
+			return ResponseEntity.ok().body("Deletado com sucesso!");
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não é possivel deletar");
 	}
 
 }
