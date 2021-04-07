@@ -7,8 +7,9 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-@Entity
+
 @Table(name = "tb_treinador")
+@Entity
 public class Treinador extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
 
