@@ -14,7 +14,6 @@ public class Treinador extends AbstractEntity {
 
 	private String nome;
 	private Integer idade;
-	private Integer qntPokemon;
 
 	
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -33,12 +32,7 @@ public class Treinador extends AbstractEntity {
 	public void setIdade(Integer idade) {
 		this.idade = idade;
 	}
-	public Integer getQntPokemon() {
-		return qntPokemon;
-	}
-	public void setQntPokemon(Integer qntPokemon) {
-		this.qntPokemon = qntPokemon;
-	}
+	
 	public Treinador() {
 
 	}
