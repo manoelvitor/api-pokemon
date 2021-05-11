@@ -12,7 +12,7 @@ import com.pokemon.model.Pokemon;
 public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
 
 	//Query para pegar todos pokemons via nome do elemento
-	@Query("select p from Pokemon p where p.elemento.nomeElemento =?1")
+	@Query("select p from Pokemon p where p.elemento.nomeElemento=?1")
 	List<Pokemon> listarPorNomeElemento(String nomeElemento);
 
 }

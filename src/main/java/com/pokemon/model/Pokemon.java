@@ -13,8 +13,10 @@ public class Pokemon extends AbstractEntity {
 
 	@Column(name = "nm_nome", length = 80)
 	private String nome;
-	
+
 	private String imagem;
+	
+	private String descricao;
 
 	public String getNome() {
 		return nome;
@@ -26,9 +28,11 @@ public class Pokemon extends AbstractEntity {
 
 	@ManyToOne
 	Elemento elemento;
-	
+
 	@ManyToOne
 	Elemento subElemento;
+	
+
 
 	public Elemento getSubElemento() {
 		return subElemento;
@@ -52,6 +56,14 @@ public class Pokemon extends AbstractEntity {
 
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 }
