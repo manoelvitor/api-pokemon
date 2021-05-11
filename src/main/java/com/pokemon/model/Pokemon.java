@@ -32,6 +32,9 @@ public class Pokemon extends AbstractEntity {
 	@ManyToOne
 	Elemento subElemento;
 	
+	@ManyToOne
+	Elemento fracoContra;
+	
 
 
 	public Elemento getSubElemento() {
