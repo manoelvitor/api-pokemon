@@ -1,7 +1,11 @@
 package com.pokemon.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,15 +31,23 @@ public class Pokemon extends AbstractEntity {
 	}
 
 	@ManyToOne
-	Elemento elemento;
+	private Elemento elemento;
 
 	@ManyToOne
-	Elemento subElemento;
+	private Elemento subElemento;
 	
-	@ManyToOne
-	Elemento fracoContra;
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Elemento> fracoContra;
 	
+	
+	
+	public List<Elemento> getFracoContra() {
+		return fracoContra;
+	}
 
+	public void setFracoContra(List<Elemento> fracoContra) {
+		this.fracoContra = fracoContra;
+	}
 
 	public Elemento getSubElemento() {
 		return subElemento;
@@ -45,6 +57,7 @@ public class Pokemon extends AbstractEntity {
 		this.subElemento = subElemento;
 	}
 
+	
 	public Elemento getElemento() {
 		return elemento;
 	}
