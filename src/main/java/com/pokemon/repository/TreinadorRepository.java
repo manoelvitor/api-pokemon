@@ -7,5 +7,7 @@ import com.pokemon.model.Treinador;
 
 @Repository
 public interface TreinadorRepository extends JpaRepository<Treinador, Long> {
+	Treinador findByLogin(String login);
+
 
 }

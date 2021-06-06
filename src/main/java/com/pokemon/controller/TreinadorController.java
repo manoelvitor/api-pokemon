@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pokemon.exception.AuthorizationException;
 import com.pokemon.model.Treinador;
 import com.pokemon.service.TreinadorService;
 
@@ -30,14 +32,20 @@ public class TreinadorController implements ControllerInteface<Treinador> {
 		return ResponseEntity.ok(service.findAll());
 	}
 
+	
+
 	@Override
-	@GetMapping(value = "/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> get(@PathVariable("id") Long id) {
-		Treinador _treinador = service.findById(id);
-		if (_treinador != null) {
-			return ResponseEntity.ok(_treinador);
+		try {
+			Treinador _treinador = service.findById(id);
+			if (_treinador != null) {
+				return ResponseEntity.ok(_treinador);
+			}
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		} catch (AuthorizationException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	@Override
@@ -58,6 +66,7 @@ public class TreinadorController implements ControllerInteface<Treinador> {
 
 	@Override
 	@DeleteMapping(value = "/{id}")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		if(service.delete(id)) 
 			return ResponseEntity.ok().body("Deletado com sucesso!");

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +43,7 @@ public class PokemonController implements ControllerInteface<Pokemon> {
 
 	@Override
 	@PostMapping
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Pokemon> post(@RequestBody Pokemon obj) {
 		service.create(obj);
 		return ResponseEntity.ok(obj);
@@ -49,6 +51,7 @@ public class PokemonController implements ControllerInteface<Pokemon> {
 
 	@Override
 	@PutMapping
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<?> put(@RequestBody Pokemon obj) {
 		if (service.update(obj)) {
 			return ResponseEntity.ok(obj);
@@ -58,6 +61,7 @@ public class PokemonController implements ControllerInteface<Pokemon> {
 
 	@Override
 	@DeleteMapping(value = "{id}")
+//	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Pokemon _pokemon = service.findById(id);
 		if (_pokemon != null) {
