@@ -1,6 +1,5 @@
 package com.pokemon.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,36 +9,30 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.pokemon.repository.TreinadorRepository;
-import com.pokemon.security.JWTAuthenticationFilter;
-import com.pokemon.security.JWTAuthorizationFilter;
-import com.pokemon.security.JWTUtil;
+
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private JWTUtil jwtUtil;
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Autowired
-	 private TreinadorRepository treiRepository;
+
+	@Bean
+	public static BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 
-	private static final String[] PUBLIC_MATCHERS = { "/pokemons/**", "/treinadores/**", "/elementos/**","/upload/**"};
+	private static final String[] PUBLIC_MATCHERS = {"/pokemons/**", "/elementos/**","/upload/**"};
 
-	private static final String[] PUBLIC_MATCHERS_POST = { "/pokemons/**", "/treinadores/**", "/elementos/**","/upload/**" };
+	private static final String[] PUBLIC_MATCHERS_POST = {"/pokemons/**", "/elementos/**","/upload/**" };
 
-	private static final String[] PUBLIC_MATCHERS_DELETE = { "/pokemons/**", "/treinadores/**", "/elementos/**" };
+	private static final String[] PUBLIC_MATCHERS_DELETE = { "/pokemons/**", "/elementos/**" };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -50,14 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/v3/api-docs/**","/swagger-ui/**","/documentacao" ).permitAll()
 			.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
 			.antMatchers(HttpMethod.DELETE, PUBLIC_MATCHERS_DELETE).permitAll()
-
+					.anyRequest().authenticated();
 		
-			.anyRequest().authenticated();
-		http.addFilter(new JWTAuthenticationFilter(authenticationManager(),
-				jwtUtil, treiRepository));
-		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil,
-				userDetailsService));
-
 	}
 
 	@Bean
@@ -74,8 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+		auth.inMemoryAuthentication()
+		.withUser("vitor").password(passwordEncoder().encode("123")).authorities("ADMIN")
+		.and()
+		.withUser("user").password(passwordEncoder().encode("123")).authorities("USER");
 	}
+	
 	
 	
 
