@@ -1,28 +1,21 @@
 package com.pokemon;
 
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.web.servlet.config.annotation.CorsRegistry;
-//import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-//import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
-//@Configuration
-//@EnableWebMvc
-public class CorsConfiguration {
+@Configuration
+@EnableWebMvc
+public class CorsConfiguration implements WebMvcConfigurer {
 	
-/*
+
 	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
-    }
-	
-	
-	
 	   public void addCorsMappings(CorsRegistry registry) {
 	        registry.addMapping("/**");
 	    }
 	
-	public void addCorsMappings(CorsRegistry registry) {
+	/* public void addCorsMappings(CorsRegistry registry) {
 			registry.addMapping("/**").allowedOrigins("http://api-pokemon-fatec.herokuapp.com/");
 		}
 	
