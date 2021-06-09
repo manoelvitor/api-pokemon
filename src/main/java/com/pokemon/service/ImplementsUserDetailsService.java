@@ -1,5 +1,6 @@
 package com.pokemon.service;
 
+/*
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,9 +10,9 @@ import org.springframework.stereotype.Repository;
 import com.pokemon.model.Usuario;
 import com.pokemon.repository.UsuarioRepository;
 
-@Repository
-public class ImplementsUserDetailsService implements UserDetailsService {
-
+@Repository*/
+public class ImplementsUserDetailsService /*implements UserDetailsService*/ {
+/*
 	@Autowired
 	private UsuarioRepository ur;
 	
@@ -22,6 +23,6 @@ public class ImplementsUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException("Usuario não encontrado");
 		}
 		return usuario;
-	}
+	}*/
 
 }
