@@ -25,10 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	private static final String[] PUBLIC_MATCHERS = { "/elementos/**", "/pokemons/**", "/usuarios/**" };
+	private static final String[] PUBLIC_MATCHERS = { "/elementos/**", "/pokemons/**", "/usuarios/**" ,"/upload/**"};
 
-	private static final String[] PUBLIC_MATCHERS_POST = { "/elementos/**", "/pokemons/**", "/usuarios/**" };
-
+	private static final String[] PUBLIC_MATCHERS_POST = { "/elementos/**", "/pokemons/**", "/usuarios/**", "/upload/**" };
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable();
