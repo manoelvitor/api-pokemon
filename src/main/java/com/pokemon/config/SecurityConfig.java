@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	private static final String[] PUBLIC_MATCHERS = { "/regioes/**","/pokemons/**", "/elementos/**",  "/usuarios/**" ,"/upload/**"};
+	private static final String[] PUBLIC_MATCHERS = { "/regioes/**","/pokemons/**", "/elementos/**",  "/usuarios/**" ,"/upload/**","/documentacao/**"};
 
 	private static final String[] PUBLIC_MATCHERS_POST = { "/regioes/**","/pokemons/**","/elementos/**",  "/usuarios/**", "/upload/**" };
 		
