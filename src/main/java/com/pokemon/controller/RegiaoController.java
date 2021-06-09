@@ -14,49 +14,44 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.amazonaws.services.licensemanager.model.AuthorizationException;
-import com.pokemon.model.Elemento;
-import com.pokemon.model.Usuario;
-import com.pokemon.service.UsuarioService;
+import com.pokemon.model.Regiao;
+import com.pokemon.service.RegiaoService;
 
 @RestController
-@RequestMapping("/usuarios")
-public class UsuarioController implements ControllerInteface<Usuario> {
+@RequestMapping(value = "/regioes")
+public class RegiaoController implements ControllerInteface<Regiao> {
 
 	@Autowired
-	private UsuarioService service;
+	RegiaoService service;
 
 	@Override
 	@GetMapping
-	public ResponseEntity<List<Usuario>> getAll() {
+	public ResponseEntity<List<Regiao>> getAll() {
 		return ResponseEntity.ok(service.findAll());
 	}
 
 	@Override
-	@GetMapping("/{id}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> get(@PathVariable("id") Long id) {
-		try {
-			Usuario _usuario = service.findById(id);
-			if (_usuario != null) {
-				return ResponseEntity.ok(_usuario);
-			}
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		} catch (AuthorizationException e) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		Regiao _regiao = service.findById(id);
+		if (_regiao != null) {
+			return ResponseEntity.ok(_regiao);
 		}
-
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	@Override
 	@PostMapping
-	public ResponseEntity<Usuario> post(@RequestBody Usuario obj) {
+	//@PreAuthorize("hasAnyRole('ADMIN')")
+	public ResponseEntity<Regiao> post(@RequestBody Regiao obj) {
 		service.create(obj);
 		return ResponseEntity.ok(obj);
 	}
 
 	@Override
 	@PutMapping
-	public ResponseEntity<?> put(@RequestBody Usuario obj) {
+	//@PreAuthorize("hasAnyRole('ADMIN')")
+	public ResponseEntity<?> put(@RequestBody Regiao obj) {
 		if (service.update(obj)) {
 			return ResponseEntity.ok(obj);
 		}
@@ -64,12 +59,16 @@ public class UsuarioController implements ControllerInteface<Usuario> {
 	}
 
 	@Override
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "{id}")
+//	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
-		if (service.delete(id)) {
+		Regiao _regiao = service.findById(id);
+		if (_regiao != null) {
+			service.delete(id);
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
+	
 }

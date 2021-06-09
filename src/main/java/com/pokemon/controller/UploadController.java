@@ -22,7 +22,6 @@ public class UploadController {
 	@PostMapping
 	public ResponseEntity<Void> uploadFile(@RequestParam(name = "file") MultipartFile file) {
 		URI uri = service.upload(file);
-		System.out.println();
 		return ResponseEntity.created(uri).build();
 		
 	}

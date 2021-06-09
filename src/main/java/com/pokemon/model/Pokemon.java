@@ -36,6 +36,19 @@ public class Pokemon extends AbstractEntity {
 	@ManyToOne
 	private Elemento subElemento;
 	
+	@ManyToOne
+	private Regiao regiao;
+	
+	
+	
+	public Regiao getRegiao() {
+		return regiao;
+	}
+
+	public void setRegiao(Regiao regiao) {
+		this.regiao = regiao;
+	}
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Elemento> fracoContra;
 	

@@ -5,6 +5,10 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.pokemon.model.TipoPerfil;
+import com.pokemon.service.ClienteService;
+
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -43,12 +47,18 @@ public class JWTUtil {
 	}
 
 	private Claims getClaims(String token) {
-		 try {
-		 return Jwts.parser().setSigningKey(secret.getBytes())
-		 .parseClaimsJws(token).getBody();
-		 }
-		 catch (Exception e) {
-		 return null;
-		 }
-}
+		try {
+			return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
+		} catch (Exception e) {
+			return null;
+		}
 	}
+
+	public boolean authorized(Long id) {
+		UserDetailsImpl user = ClienteService.authenticated();
+		if (user == null || (!user.hasRole(TipoPerfil.ADMIN) && !id.equals(user.getId()))) {
+			return false;
+		}
+		return true;
+	}
+}
