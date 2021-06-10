@@ -27,6 +27,7 @@ public class RegiaoController implements ControllerInteface<Regiao> {
 
 	@Override
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<List<Regiao>> getAll() {
 		return ResponseEntity.ok(service.findAll());
 	}
