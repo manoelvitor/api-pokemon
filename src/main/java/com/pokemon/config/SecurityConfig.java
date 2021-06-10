@@ -78,6 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
 
+	/*
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -87,6 +88,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	public void addCorsMappings(CorsRegistry registry) {
 	        registry.addMapping("/**");
-	    }
+	    }*/
 
 }

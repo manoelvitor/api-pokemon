@@ -7,14 +7,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
-public class CorsConfiguration /*implements WebMvcConfigurer*/ {
+public class CorsConfiguration implements WebMvcConfigurer {
 	
 
-	/*
+	
 	@Override
 	   public void addCorsMappings(CorsRegistry registry) {
 	        registry.addMapping("/**");
 	    }
+	
+	/*
 	 public void addCorsMappings(CorsRegistry registry) {
 			registry.addMapping("/**").allowedOrigins("http://api-pokemon-fatec.herokuapp.com/");
 		}
