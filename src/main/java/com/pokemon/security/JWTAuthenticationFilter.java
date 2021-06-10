@@ -64,11 +64,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		//out.print(cliStr + " 'token': "+token);
-		out.print("Bearer " + token);
+		//out.print("{\"token\": " + "Bearer " + token + "}");
+		out.print(jsonToken(token));
 
 		out.flush();
 		//response.getWriter().append("{token:"+token+"}");
-
 
 	}
 
@@ -79,6 +79,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		response.setContentType("application/json");
 		response.getWriter().append(json());
 	}
+	
+	private String jsonToken(String token) {
+		return "{\"token\": " + "\"Bearer " + token + "\"}";
+	}
+	
+	
 
 	private String json() {
 		return "{\"timestamp\": " + new Date().getTime() + ", " + "\"status\": 401, "
