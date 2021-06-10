@@ -1,6 +1,7 @@
 package com.pokemon.security;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,17 +17,22 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+
 import com.pokemon.dto.CredenciaisDTO;
-
-
+import com.pokemon.model.Usuario;
+import com.pokemon.repository.UsuarioRepository;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private AuthenticationManager authenticationManager;
 	private JWTUtil jwtUtil;
+	private UsuarioRepository cliRepo;
 
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil,
+			UsuarioRepository cliRepo) {
 		this.authenticationManager = authenticationManager;
 		this.jwtUtil = jwtUtil;
+		this.cliRepo = cliRepo;
 	}
 
 	@Override
@@ -50,6 +56,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String token = jwtUtil.generateToken(username);
 		response.addHeader("Authentication", "Bearer " + token);
 		response.addHeader("access-control-expose-headers", "Authorization");
+		Usuario cli = (Usuario) cliRepo.findByLogin(username);
+		cli.setSenha(null);
+		Gson gson = new Gson();
+		String cliStr = gson.toJson(cli);
+		PrintWriter out = response.getWriter();
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		out.print(cliStr);
+		out.flush();
 	}
 
 	@Override

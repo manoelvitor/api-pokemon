@@ -14,12 +14,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.pokemon.repository.UsuarioRepository;
 import com.pokemon.security.JWTAuthenticationFilter;
+import com.pokemon.security.JWTAuthorizationFilter;
 import com.pokemon.security.JWTUtil;
 
 @EnableWebSecurity
@@ -32,6 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private UsuarioRepository cliRepo;	
+
 
 	private static final String[] PUBLIC_MATCHERS = { "/regioes/**", "/pokemons/**", "/elementos/**", "/usuarios/**",
 			"/upload/**", "/documentacao/**", "/swagger-ui/**" };
@@ -55,8 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll().anyRequest()
 				.authenticated();
 
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthenticationFilter(authenticationManager(),
+				jwtUtil, cliRepo));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil,
+				userDetailsService));
 
 	}
 
@@ -76,5 +84,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		return source;
 	}
+	
+	public void addCorsMappings(CorsRegistry registry) {
+	        registry.addMapping("/**");
+	    }
 
 }
