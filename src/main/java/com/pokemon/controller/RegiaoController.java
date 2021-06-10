@@ -27,7 +27,6 @@ public class RegiaoController implements ControllerInteface<Regiao> {
 
 	@Override
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<List<Regiao>> getAll() {
 		return ResponseEntity.ok(service.findAll());
 	}
@@ -44,7 +43,7 @@ public class RegiaoController implements ControllerInteface<Regiao> {
 
 	@Override
 	@PostMapping
-	//@PreAuthorize("hasAnyRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Regiao> post(@RequestBody Regiao obj) {
 		service.create(obj);
 		return ResponseEntity.ok(obj);
@@ -52,7 +51,7 @@ public class RegiaoController implements ControllerInteface<Regiao> {
 
 	@Override
 	@PutMapping
-	//@PreAuthorize("hasAnyRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<?> put(@RequestBody Regiao obj) {
 		if (service.update(obj)) {
 			return ResponseEntity.ok(obj);
@@ -62,7 +61,7 @@ public class RegiaoController implements ControllerInteface<Regiao> {
 
 	@Override
 	@DeleteMapping(value = "{id}")
-//	@PreAuthorize("hasAnyRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Regiao _regiao = service.findById(id);
 		if (_regiao != null) {
